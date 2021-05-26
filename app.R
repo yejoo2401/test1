@@ -2,7 +2,7 @@ library(shiny)
 ui<- fluidPage(
   
   selectInput(inputId = "n_breaks",label = "Number of bins in histogram:",
-              choices = c(1,5,10),selected = 5),
+              choices = c(5,10,15),selected = 10),
   checkboxInput(inputId = "individual_obs",
                 label = strong("Show individual observations"),
                 value = FALSE),
@@ -21,21 +21,21 @@ server<- function(input,output) {
   
   output$main_plot <- renderPlot({
     
-    hist(shopbarchart$N, probability = TRUE, 
+    hist(appbarchart$N, probability = TRUE, 
          breaks = as.numeric(input$n_breaks),
-         xlab = "number", main = "shop usage")
+         xlab = "number", main = "app usage")
     
     if(input$individual_obs){
-      rug(shopbarchart$N)
+      rug(appbarchart$N)
     }
     
     if(input$density){
-      dens<-density(shopbarchart$N, adjust = input$bw_adjust)
+      dens<-density(appbarchart$N, adjust = input$bw_adjust)
       lines(dens, col="red")
     }
-    
+         
   })
 }
 
-#console: runApp("0602newdir2")
+#console: runApp("0602newdir")
 shinyApp(ui=ui, server = server)
